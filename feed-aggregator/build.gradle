@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
+    }
+    dependencies {
+        classpath 'org.figurate:gradle-figurate-plugin:master-SNAPSHOT',
+                'org.figurate:gradle-constellations-plugin:master-SNAPSHOT'
+    }
+}
+
+apply plugin: 'figurate'
+apply plugin: 'constellations'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+
+dependencies {
+    bundle configurations.constellation$felix, configurations.constellation$rss, configurations.constellation$http,
+            configurations.constellation$webconsole, configurations.constellation$logback,
+            'org.codehaus.groovy:groovy-all:2.4.3', 'org.apache.felix:org.apache.felix.configadmin:1.8.0'
+    runtime configurations.constellation$logback
+}
+
+configurationConfig {
+    configProps = [:]
+}
+
+loggerConfig {
+    configTemplate = file('src/main/resources/logback.groovy').toURI().toURL()
+}
+
+launcherConfig {
+    configProps << [
+            // use the next available port from 8080 onwards
+            'org.osgi.service.http.port'        : '[8080,8099)',
+            'org.apache.felix.http.jettyEnabled': 'true',
+            'org.apache.felix.http.whiteboardEnabled': 'true',
+            'org.apache.felix.http.debug'       : 'true'
+    ]
+}
