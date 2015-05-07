@@ -25,7 +25,8 @@ repositories {
 dependencies {
     bundle configurations.constellation$felix, configurations.constellation$rss, configurations.constellation$http,
             configurations.constellation$webconsole, configurations.constellation$logback,
-            'org.codehaus.groovy:groovy-all:2.4.3', 'org.apache.felix:org.apache.felix.configadmin:1.8.0'
+            'org.codehaus.groovy:groovy-all:2.4.3',
+            configurations.constellation$rest, configurations.constellation$jackson
     runtime configurations.constellation$logback
 }
 
@@ -33,12 +34,13 @@ configurationConfig {
     configProps = [:]
 }
 
-loggerConfig {
-    configTemplate = file('src/main/resources/logback.groovy').toURI().toURL()
-}
+//loggerConfig {
+//    configTemplate = file('src/main/resources/logback.groovy').toURI().toURL()
+//}
 
 launcherConfig {
     configProps << [
+            'org.osgi.framework.system.packages.extra': 'sun.misc,org.xml.sax*,javax.xml*',
             // use the next available port from 8080 onwards
             'org.osgi.service.http.port'        : '[8080,8099)',
             'org.apache.felix.http.jettyEnabled': 'true',
