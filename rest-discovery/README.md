@@ -1,0 +1,1 @@
+This example demonstrates how to package constellations that support dynamic endpoint discovery via multicast DNS.

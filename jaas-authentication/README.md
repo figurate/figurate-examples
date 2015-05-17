@@ -1,0 +1,1 @@
+This example demonstrates how to package and configure constellations that provide JAAS authentication capabilities.

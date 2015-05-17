@@ -1,0 +1,1 @@
+This example demonstrates how to package existing constellations with configuration to build a feed aggregator service.
