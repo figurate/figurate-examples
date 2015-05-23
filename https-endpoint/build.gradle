@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots'
+        }
+    }
+    dependencies {
+        classpath 'org.figurate:gradle-figurate-plugin:felix-5-SNAPSHOT',
+                'org.figurate:gradle-constellations-plugin:upgrade-amdatu-dependencies-SNAPSHOT',
+                'org.figurate:gradle-keytool-plugin:master-SNAPSHOT'
+    }
+}
+
+apply plugin: 'figurate'
+apply plugin: 'constellations'
+apply plugin: 'keytool'
+// groovy plugin for spock testing
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+}
+
+dependencies {
+    bundle configurations.constellation$felix, // OSGi runtime
+            configurations.constellation$webconsole, // OSGi dashboard application
+            configurations.constellation$http // embedded Jetty HTTP server
+
+    runtime configurations.constellation$logback
+}
+
+configurationConfig {
+    configProps = [:]
+}
+
+launcherConfig {
+    configProps << [
+            'org.osgi.framework.system.packages.extra': 'sun.misc,org.xml.sax*,javax.xml*',
+            'org.osgi.framework.storage.clean':'onFirstInit',
+            // use the next available port from 8080 onwards
+            'org.osgi.service.http.port'        : '[8080,8099)',
+            'org.osgi.service.http.port.secure':'[8443,8499)',
+            'org.apache.felix.http.enable':'true',
+            'org.apache.felix.https.enable':'true',
+            'org.apache.felix.https.keystore':'client.keystore',
+            'org.apache.felix.https.keystore.password':'changeit',
+            'org.apache.felix.http.jettyEnabled': 'true',
+            'org.apache.felix.http.whiteboardEnabled': 'true',
+            'org.apache.felix.http.debug'       : 'true'
+    ]
+}
+
+genkey {
+    alias = 'localhost'
+    keyalg = 'RSA'
+    noprompt
+}
+run.dependsOn genkey
+
+// enable debugging agent
+applicationDefaultJvmArgs << '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005'
