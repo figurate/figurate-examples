@@ -23,3 +23,7 @@ RUN ./gradlew
 RUN ./gradlew feed-aggregator:assemble
 
 ADD . ./
+
+ENTRYPOINT ["/app/gradlew"]
+
+CMD ["-q", "tasks", "--all"]
