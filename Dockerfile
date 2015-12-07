@@ -8,6 +8,7 @@ WORKDIR /app
 COPY gradle gradle
 COPY \
   build.gradle \
+  feed-aggregator/build.gradle \
   gradle.properties \
   gradlew \
   settings.gradle \
@@ -17,6 +18,6 @@ COPY \
 RUN ./gradlew
 
 # Run gradle assemble to install dependencies before adding the whole repository
-#RUN ./gradlew assemble
+RUN ./gradlew feed-aggregator:assemble
 
 ADD . ./
