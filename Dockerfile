@@ -22,3 +22,5 @@ RUN ./gradlew
 RUN ./gradlew feed-aggregator:assemble
 
 ADD . ./
+
+EXPOSE 8080 8443
