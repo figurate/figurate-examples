@@ -8,11 +8,12 @@ WORKDIR /app
 COPY gradle gradle
 COPY \
   build.gradle \
-  feed-aggregator/build.gradle \
   gradle.properties \
   gradlew \
   settings.gradle \
   ./
+COPY feed-aggregator/build.gradle ./feed-aggregator/
+
 
 # Install the gradle version used in the repository through gradlew
 RUN ./gradlew
