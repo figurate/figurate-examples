@@ -1,6 +1,8 @@
 # Starting from the Openjdk-8 container
 FROM java:openjdk-8-jdk
 
+EXPOSE 8080 8443
+
 # Set the WORKDIR. All following commands will be run in this directory.
 WORKDIR /app
 
@@ -14,7 +16,6 @@ COPY \
   ./
 COPY feed-aggregator/build.gradle ./feed-aggregator/
 
-
 # Install the gradle version used in the repository through gradlew
 RUN ./gradlew
 
@@ -22,5 +23,3 @@ RUN ./gradlew
 RUN ./gradlew feed-aggregator:assemble
 
 ADD . ./
-
-EXPOSE 8080 8443
