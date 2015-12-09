@@ -20,7 +20,7 @@ COPY feed-aggregator/build.gradle ./feed-aggregator/
 RUN ./gradlew
 
 # Run gradle assemble to install dependencies before adding the whole repository
-RUN ./gradlew feed-aggregator:assemble
+RUN ./gradlew feed-aggregator:copyBundles # , launcherConfig, loggerConfig, configurationConfig
 
 ADD . ./
 
