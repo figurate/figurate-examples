@@ -17,13 +17,9 @@ COPY \
 COPY feed-aggregator/build.gradle ./feed-aggregator/
 
 # Install the gradle version used in the repository through gradlew
-RUN ./gradlew
-
-# Run gradle assemble to install dependencies before adding the whole repository
-RUN ./gradlew feed-aggregator:assemble
-
-# Run gradle tasks to initialise the app for execution
-RUN ./gradlew clean copyBundles launcherConfig loggerConfig configurationConfig
+#  - Run gradle assemble to install dependencies before adding the whole repository
+#  - Run gradle tasks to initialise the app for execution
+RUN ./gradlew feed-aggregator:assemble clean copyBundles launcherConfig loggerConfig configurationConfig
 
 ADD . ./
 
