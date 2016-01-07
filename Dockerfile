@@ -6,12 +6,15 @@ EXPOSE 8080 8443
 # Set the WORKDIR. All following commands will be run in this directory.
 WORKDIR /app
 
-# Copying all gradle files necessary to install gradle with gradlew
+# initialise gradle..
 COPY gradle gradle
+COPY gradlew ./
+RUN ./gradlew
+
+# Copying all gradle files necessary to install gradle with gradlew
 COPY \
   build.gradle \
   gradle.properties \
-  gradlew \
   settings.gradle \
   ./
 COPY feed-aggregator/build.gradle ./feed-aggregator/
